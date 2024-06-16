@@ -1,0 +1,7 @@
+<div class="">
+    <app-sidebar [eventData] = "sidebarToggleEvent2" ></app-sidebar>
+    <div class="xl:pl-72">
+        <app-header (sidebarToggle)="onChange($event)"></app-header>
+        <router-outlet />
+    </div>
+  </div>
