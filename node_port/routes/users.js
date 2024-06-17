@@ -42,7 +42,7 @@ router.post('/login', async (req, res)=>{
                 const token = jwt.sign({email: rows[0].admin_email}, process.env.JWT_SECRET);
                 res.send({status: true, token: token});
             }else{
-                res.status(401).send('Invalid email or password');
+                res.status(200).send({status: false, msg: 'Invalid email or password'});
             }
         });
     }
