@@ -52,4 +52,19 @@ router.post('/login', async (req, res)=>{
     }
 });
 
+router.post('/userinfo', authGuard, async(req, res)=>{
+    try{
+        console.log(req.body.decoded);
+        let email = req.body.decoded.email;
+        db.query("SELECT admin_email,admin_email_verified,admin_group,admin_id,admin_name,admin_photo FROM admin_users WHERE admin_email = '"+email+"' LIMIT 1 ", (err, rows, fields)=>{
+            if (err) throw err
+            res.send(rows[0]);
+            debug('visited /users/userinfo');
+        });
+    } catch(ex){
+        debug(ex.message);
+        res.status(500).send('ERROR: '+ex.message);
+    }
+})
+
 module.exports = router;

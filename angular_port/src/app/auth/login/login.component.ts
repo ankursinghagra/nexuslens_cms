@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Validators, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonService } from '../_services/common.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent {
       Validators.required
     ])
   })
-  constructor(private bs:CommonService){
+  constructor(private bs:CommonService, private router: Router){
   }
   submitLogin(){
     this.onceSubmited = true;
@@ -36,6 +37,8 @@ export class LoginComponent {
       if(response.status){
         // do login
         localStorage.setItem('nexuslens_cms_token', response.token);
+        this.router.navigate(['/admin']);
+        
       }else{
         this.login_error_msg = response.msg;
       }
