@@ -19,6 +19,9 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.bs.getSystemData().subscribe(res=>{
       console.log(res);
+      if(res.groups){
+        
+      }
     });
   }
 }
