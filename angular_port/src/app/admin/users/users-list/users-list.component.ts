@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonService } from '../../_services/common/common.service';
+import { AdminDataService } from '../../_services/admindata.service';
 
 @Component({
   selector: 'app-users-list',
@@ -24,7 +24,7 @@ export class UsersListComponent implements OnInit {
       author_twitter_link: string,
       admin_email_verified: number
   }>= [];
-  constructor(private bs: CommonService){
+  constructor(private bs: AdminDataService){
 
   }
 

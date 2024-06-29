@@ -52,6 +52,25 @@ router.post('/login', async (req, res)=>{
     }
 });
 
+router.get('/systeminfo', async (req, res)=>{
+    try{
+        db.query("SELECT * FROM `admin_groups` ORDER BY `admin_groups`.`admin_group_id` ASC", 
+        (err, rows, fields)=>{
+            if(err) {
+                return res.status(401).send('bad request');
+            }
+            if(rows.length>0){
+
+                res.send({status: true, groups: rows,});
+            }
+        });
+    }
+    catch(ex){
+        debug('Error : ', ex.message);
+        res.status(400).send('Error : '+ex.message);
+    }
+});
+
 router.post('/userinfo', authGuard, async(req, res)=>{
     try{
         console.log(req.body.decoded);

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Validators, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CommonService } from '../_services/common.service';
+import { AuthDataService } from '../_services/authdata.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,7 +26,7 @@ export class LoginComponent {
       Validators.required
     ])
   })
-  constructor(private bs:CommonService, private router: Router){
+  constructor(private bs:AuthDataService, private router: Router){
   }
   submitLogin(){
     this.onceSubmited = true;

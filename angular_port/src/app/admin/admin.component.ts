@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { CommonService } from './_services/common/common.service';
+import { AdminDataService } from './_services/admindata.service';
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +16,7 @@ export class AdminComponent implements OnInit{
   // set event2(event3: Event){
   //   console.log(event3);
   // }
-  constructor(private bs:CommonService){
+  constructor(private bs:AdminDataService){
 
   }
 

@@ -7,7 +7,7 @@ import { SidebarComponent } from './_partials/sidebar/sidebar.component';
 import { HeaderComponent } from './_partials/header/header.component';
 import { authGuard } from './_guards/auth.guard'
 import { HttpClientModule } from '@angular/common/http';
-import { CommonService } from './_services/common/common.service';
+import { AdminDataService } from './_services/admindata.service';
 
 const adminRoutes: Routes = [
   { 
@@ -35,7 +35,7 @@ const adminRoutes: Routes = [
     HttpClientModule
   ],
   providers: [
-    CommonService
+    AdminDataService
   ]
 })
 export class AdminModule { }

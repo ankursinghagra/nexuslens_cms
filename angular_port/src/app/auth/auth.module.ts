@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
-import { CommonService } from './_services/common.service';
+import { AuthDataService } from './_services/authdata.service';
 import { HttpClientModule } from '@angular/common/http';
 
 const authRoutes: Routes = [
@@ -19,7 +19,7 @@ const authRoutes: Routes = [
     HttpClientModule
   ],
   providers: [
-    CommonService
+    AuthDataService
   ]
 })
 export class AuthModule { }
