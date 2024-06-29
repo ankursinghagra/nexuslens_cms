@@ -25,4 +25,8 @@ export class CommonService {
     return this.http.post<any>(this.apiUrl+"users/userinfo", {}, {headers: new HttpHeaders({'x-auth-token': this.token,'Content-Type': 'application/json'})});
   }
   
+
+  getAllUsers(): Observable<any>{
+    return this.http.get<any>(this.apiUrl+"users/all", {headers: new HttpHeaders({'x-auth-token': this.token,'Content-Type': 'application/json'})});
+  }
 }
