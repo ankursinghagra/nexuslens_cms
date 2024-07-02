@@ -12,4 +12,13 @@ connection.connect(()=>{
     debug("DB Connected");
 });
 
+connection.on('error', err => {
+  if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      // db error reconnect
+      disconnect_handler();
+  } else {
+      throw err;
+  }
+});
+
 module.exports = connection;
