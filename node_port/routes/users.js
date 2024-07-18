@@ -22,12 +22,20 @@ router.get('/', (req, res) => {
 // this gets all the user in database
 router.get('/all', authGuard, (req, res)=>{
     try{
-        console.log(req.body.decoded);
-        db.query("SELECT * FROM admin_users AS U JOIN admin_groups AS G ON G.admin_group_id=U.admin_group ", (err, rows, fields)=>{
-            if (err) throw err
-            res.send(rows);
-            debug('visited /users/all');
-        });
+        //console.log(req.body.decoded);
+        //console.log(req.modify_permissions);
+        if(req.view_permissions.module_users != undefined && req.view_permissions.module_users){            
+            db.query("SELECT * FROM admin_users AS U JOIN admin_groups AS G ON G.admin_group_id=U.admin_group ", (err, rows, fields)=>{
+                if (err) throw err
+                res.send(rows);
+                debug('visited /users/all');
+            });
+        }else{
+            res.send({
+                status: false,
+                msg: "You dont have permissions to modify"
+            })
+        }
     } catch(ex){
         debug(ex.message);
         res.status(500).send('ERROR: '+ex.message);
@@ -96,17 +104,24 @@ router.post('/userinfo', authGuard, async(req, res)=>{
 router.post('/user_data', authGuard, async(req, res)=>{
     try{
         console.log(req.body);
-        if(req.body.id){
-            db.query("SELECT admin_id,admin_email,admin_name,admin_group FROM admin_users WHERE admin_id = '"+req.body.id+"' LIMIT 1 ", (err, rows, fields)=>{
-                if (err) throw err
-                res.send({
-                    status: true,
-                    user_data: rows[0]
+        if(req.view_permissions.module_users != undefined && req.view_permissions.module_users){  
+            if(req.body.id){
+                db.query("SELECT admin_id,admin_email,admin_name,admin_group FROM admin_users WHERE admin_id = '"+req.body.id+"' LIMIT 1 ", (err, rows, fields)=>{
+                    if (err) throw err
+                    res.send({
+                        status: true,
+                        user_data: rows[0]
+                    });
+                    debug('visited /users/user_data');
                 });
-                debug('visited /users/user_data');
-            });
+            }else{
+                res.status(400).send('ERROR: id not found');
+            }
         }else{
-            res.status(400).send('ERROR: id not found');
+            res.send({
+                status: false,
+                msg: "You dont have permissions to view"
+            })
         }
     }
     catch(ex){
@@ -119,31 +134,38 @@ router.post('/user_data', authGuard, async(req, res)=>{
 router.put('/user_data', authGuard, async(req, res)=>{
     try{
         //console.log(req.body);
-        if(req.body.id){
-            db.query("SELECT admin_id,admin_email,admin_name,admin_group FROM admin_users WHERE admin_id = '"+req.body.id+"' LIMIT 1 ", (err, rows, fields)=>{
-                if (err) throw err
-                let update_obj = [];
-                if(req.body.name != undefined){ update_obj.push("`admin_name` = '"+req.body.name+"'"); }
-                if(req.body.email != undefined){ update_obj.push("`admin_email` = '"+req.body.email+"'"); }
-                if(req.body.group_id != undefined){ update_obj.push("`admin_group` = '"+req.body.group_id+"'"); }
-                if(update_obj.length > 0){
-                    let update_str = "UPDATE admin_users SET "+update_obj.join(" , ")+" WHERE admin_id = "+req.body.id;
-                    db.query(update_str, (err2,rows2, fields2)=>{
+        if(req.modify_permissions.module_users != undefined && req.modify_permissions.module_users){  
+            if(req.body.id){
+                db.query("SELECT admin_id,admin_email,admin_name,admin_group FROM admin_users WHERE admin_id = '"+req.body.id+"' LIMIT 1 ", (err, rows, fields)=>{
+                    if (err) throw err
+                    let update_obj = [];
+                    if(req.body.name != undefined){ update_obj.push("`admin_name` = '"+req.body.name+"'"); }
+                    if(req.body.email != undefined){ update_obj.push("`admin_email` = '"+req.body.email+"'"); }
+                    if(req.body.group_id != undefined){ update_obj.push("`admin_group` = '"+req.body.group_id+"'"); }
+                    if(update_obj.length > 0){
+                        let update_str = "UPDATE admin_users SET "+update_obj.join(" , ")+" WHERE admin_id = "+req.body.id;
+                        db.query(update_str, (err2,rows2, fields2)=>{
+                            res.send({
+                                status: true,
+                            });
+                            debug('visited /users/user_data');
+                        });
+                    }else{
                         res.send({
                             status: true,
                         });
                         debug('visited /users/user_data');
-                    });
-                }else{
-                    res.send({
-                        status: true,
-                    });
-                    debug('visited /users/user_data');
-                }
-                
-            });
+                    }
+                    
+                });
+            }else{
+                res.status(400).send('ERROR: id not found');
+            }
         }else{
-            res.status(400).send('ERROR: id not found');
+            res.send({
+                status: false,
+                msg: "You dont have permissions to modify"
+            })
         }
     }
     catch(ex){

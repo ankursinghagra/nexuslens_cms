@@ -15,7 +15,7 @@ connection.connect(()=>{
 connection.on('error', err => {
   if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       // db error reconnect
-      disconnect_handler();
+      mysql.disconnect_handler();
   } else {
       throw err;
   }

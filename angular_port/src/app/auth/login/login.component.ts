@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Validators, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AuthDataService } from '../_services/authdata.service';
 import { Router } from '@angular/router';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +15,10 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
-  onceSubmited:boolean = true;
+export class LoginComponent implements OnDestroy{
+  onceSubmited:boolean = false;
   login_error_msg:string = '';
+  subs: any;
   loginForm = new FormGroup({
     email: new FormControl('', [
       Validators.required,
@@ -32,19 +34,26 @@ export class LoginComponent {
     this.onceSubmited = true;
     //console.log("before send", this.loginForm.value);
     this.login_error_msg = '';
-    this.bs.getLogin(this.loginForm.value).subscribe(response=>{
-      //console.log("response",response);
-      if(response.status){
-        // do login
-        localStorage.setItem('nexuslens_cms_token', response.token);
-        this.router.navigate(['/admin']);
-        
-      }else{
-        this.login_error_msg = response.msg;
+    this.subs = this.bs.getLogin(this.loginForm.value).subscribe({
+      next : (response)=>{
+        //console.log("response",response);
+        if(response.status){
+          // do login
+          localStorage.setItem('nexuslens_cms_token', response.token);
+          this.router.navigate(['/admin']);
+          
+        }else{
+          this.login_error_msg = response.msg;
+        }
+      },
+      error : (error)=>{
+        this.login_error_msg = 'Something Went Wrong. Try again';
+        //console.log("error", error);
       }
-    },error=>{
-      this.login_error_msg = 'Something Went Wrong. Try again';
-      //console.log("error", error);
     })
+  }
+
+  ngOnDestroy(){
+    this.subs.unsubscribe();
   }
 }

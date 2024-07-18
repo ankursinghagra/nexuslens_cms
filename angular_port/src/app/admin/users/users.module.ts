@@ -6,11 +6,13 @@ import { UsersAddComponent } from './users-add/users-add.component';
 import { UsersGroupsComponent } from './users-groups/users-groups.component';
 import { UsersPermissionsComponent } from './users-permissions/users-permissions.component';
 import { Routes, RouterModule } from '@angular/router';
+import { UsersEditComponent } from './users-edit/users-edit.component';
 
 const usersRoutes: Routes = [
   { path: '', component: UsersComponent, children: [
     {path: '', component: UsersListComponent},
     {path: 'add', component: UsersAddComponent},
+    {path: 'edit/:id', component: UsersEditComponent},
     {path: 'groups', component: UsersGroupsComponent},
     {path: 'permissions', component: UsersPermissionsComponent},
   ]},
@@ -22,7 +24,8 @@ const usersRoutes: Routes = [
     UsersListComponent,
     UsersAddComponent,
     UsersGroupsComponent,
-    UsersPermissionsComponent
+    UsersPermissionsComponent,
+    UsersEditComponent
   ],
   imports: [
     CommonModule,

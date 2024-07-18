@@ -12,11 +12,11 @@ interface UsersModel {
   admin_hash_for_password_reset: string,
   admin_remember_me_token: string,
   admin_group: number,
-  author_name: string,
-  author_short_description: string,
-  author_facebook_link: string,
-  author_twitter_link: string,
-  admin_email_verified: number
+  admin_email_verified: number,
+  group_color: string,
+  group_name: string,
+  modify_permissions: string,
+  view_permissions: string
 }
 
 @Component({
@@ -32,10 +32,15 @@ export class UsersListComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.bs.getAllUsers().subscribe(res =>{
-      console.log(res);
-      this.results = res;
-      this.loading = false;
+    this.bs.getAllUsers().subscribe({
+      next: res =>{
+        console.log(res);
+        this.results = res;
+        this.loading = false;
+      },
+      error: err=>{
+        
+      }
     });
   }
 

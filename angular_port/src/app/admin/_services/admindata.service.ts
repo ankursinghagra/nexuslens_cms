@@ -29,4 +29,8 @@ export class AdminDataService {
   getAllUsers(): Observable<any>{
     return this.http.get<any>(this.apiUrl+"users/all", {headers: new HttpHeaders({'x-auth-token': this.token,'Content-Type': 'application/json'})});
   }
+
+  getUserData(id:number): Observable<any>{
+    return this.http.post<any>(this.apiUrl+"users/user_data", {id:id}, {headers: new HttpHeaders({'x-auth-token': this.token,'Content-Type': 'application/json'})});
+  }
 }
