@@ -42,6 +42,10 @@ export class UsersListComponent implements OnInit {
         
       }
     });
+    this.bs.setHeaderBreadcrums([
+      {title: 'dashboard',link: '/admin'},
+      {title: 'Users',link: '/admin/users'},
+    ]);
   }
 
 }

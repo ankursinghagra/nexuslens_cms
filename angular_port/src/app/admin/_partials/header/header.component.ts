@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { AdminDataService } from '../../_services/admindata.service';
 
 declare var localStorage: any;
 
@@ -9,13 +10,14 @@ declare var localStorage: any;
   styleUrl: './header.component.scss',
   outputs: ['sidebarToggle']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   darkMode = true;
+  header_breadcrums: Array<{title:string,link:string}> = [];
 
   @Output() sidebarToggle = new EventEmitter<Event>();
 
-  constructor(@Inject(DOCUMENT) private document: Document){
+  constructor(@Inject(DOCUMENT) private document: Document, private bs: AdminDataService){
     // On page load or when changing themes, best to add inline in `head` to avoid FOUC
     if (localStorage.getItem('theme') === 'dark' ) {
       document.documentElement.classList.add('dark')
@@ -26,6 +28,14 @@ export class HeaderComponent {
       this.darkMode = false;
       localStorage.setItem('theme','light')
     }
+  }
+
+  ngOnInit(){
+     this.bs.header_breadcrums_change.subscribe(
+      res => {
+        this.header_breadcrums = res;
+      }
+     );
   }
 
   toggleSidebar(event: Event){
@@ -45,4 +55,6 @@ export class HeaderComponent {
     console.log(this.darkMode);
     
   }
+
+  
 }
