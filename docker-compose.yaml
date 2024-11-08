@@ -1,0 +1,51 @@
+version: '3.9'
+networks:
+  backend:
+services:
+  php:
+    build: './.docker/php/'
+    image: php:8.2-apache
+    container_name: php
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - type: bind
+        source: ./php_port/
+        target: /var/www/html/
+    networks:
+      - backend
+  db: 
+    build: './.docker/db/'
+    image: mysql:latest
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=php_docker
+      - MYSQL_USER=php_docker
+      - MYSQL_PASSWORD=password # this should live in a env var
+      - MYSQL_TCP_PORT=3306
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1 # equivalent to True
+    ports:
+      - "3306:3306"
+    depends_on:
+      - php
+    volumes:
+      - "./.docker/db:/docker-entrypoint-initdb.d" # this is how we persist a sql db even when container stops
+    networks:
+      - backend
+  phpmyadmin:
+    container_name: phpmyadmin
+    build: './.docker/phpmyadmin'
+    image: phpmyadmin
+    ports:
+      - '8080:80'
+    restart: always
+    environment:
+      - PMA_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=
+    depends_on:
+      - db
+    networks:
+      - backend
