@@ -15,8 +15,8 @@ services:
         target: /var/www/html/
     networks:
       - backend
-  db: 
-    build: './.docker/db/'
+  mysql: 
+    build: './.docker/mysql/'
     image: mysql:latest
     container_name: mysql
     restart: unless-stopped
@@ -31,7 +31,7 @@ services:
     depends_on:
       - php
     volumes:
-      - "./.docker/db:/docker-entrypoint-initdb.d" # this is how we persist a sql db even when container stops
+      - "./.docker/mysql/persist:/docker-entrypoint-initdb.d" # this is how we persist a sql db even when container stops
     networks:
       - backend
   phpmyadmin:
@@ -42,10 +42,24 @@ services:
       - '8080:80'
     restart: always
     environment:
-      - PMA_HOST=db
+      - PMA_HOST=mysql
       - MYSQL_USER=root
       - MYSQL_PASSWORD=
     depends_on:
-      - db
+      - mysql
+    networks:
+      - backend
+  nodejs:
+    container_name: nodejs
+    build: './.docker/nodejs'
+    image: nodejs
+    ports:
+      - '3000:3000'
+    volumes:
+      - type: bind
+        source: ./node_port/
+        target: /usr/src/app
+    depends_on:
+      - mysql
     networks:
       - backend
