@@ -10,9 +10,13 @@ UNDER DEVELOPMENT
 
 ### Frontend 
 
-Angular 16
+Angular CLI v18.2.3
 
 ### Backend 
-NodeJS 
+NodeJS v20.17.0
+PHP v8.2
+MongoDb v8.0.3
 
-PHP 
+### Other Tools
+mongo-express
+Codeigniter v3

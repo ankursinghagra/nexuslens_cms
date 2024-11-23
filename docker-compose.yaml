@@ -31,7 +31,7 @@ services:
     depends_on:
       - php
     volumes:
-      - "./.docker/mysql/persist:/docker-entrypoint-initdb.d" # this is how we persist a sql db even when container stops
+      - "./.docker/mysql/persist:/var/lib/mysql" # this is how we persist a sql db even when container stops
     networks:
       - backend
   phpmyadmin:
@@ -51,7 +51,6 @@ services:
   nodejs:
     container_name: nodejs
     build: './.docker/nodejs'
-    image: nodejs
     ports:
       - '3000:3000'
     volumes:
