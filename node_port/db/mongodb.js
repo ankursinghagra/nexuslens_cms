@@ -1,18 +1,20 @@
+const debug = require('debug')('app:mongodb.js');
 const mongoose = require('mongoose');
-const conn = mongoose.createConnection(process.env.DB_URL);
+debug("Trying to connect ... ");
+const conn = mongoose.connect(process.env.MONGODB_URL,{dbName: process.env.MONGODB_NAME,});
 
-conn.on('connected', function () {  
-    console.log('Mongoose default connection is established');
+/* conn.on('connected', function () {  
+    debug('Mongoose default connection is established');
 }); 
 
 // If the connection throws an error
 conn.on('error',function (err) {  
-    console.log('Mongoose default connection error: ' + err);
+    debug('Mongoose default connection error: ' + err);
 }); 
 
 // When the connection is disconnected
 conn.on('disconnected', function () {  
-    console.log('Mongoose default connection disconnected'); 
-});
+    debug('Mongoose default connection disconnected'); 
+}); */
 
 module.exports = conn;

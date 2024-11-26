@@ -3,12 +3,19 @@ require('dotenv').config()
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-let db_slug='mysql';
+const debug = require('debug')('app:index.js');
+let db_slug='none';
 if(process.env.DB_USED=='mongodb'){
     db_slug='mongodb';
-    //const db = require('./db/mongodb');
 }
-const debug = require('debug')('app:index.js');
+if(process.env.DB_USED=='mysql'){
+    db_slug='mysql';
+}
+if(db_slug=='none'){
+    debug("No DB found!");
+    exit();
+}
+console.log(db_slug);
 const usersRoute = require('./routes_'+db_slug+'/users');
 const userGroupsRoute = require('./routes_'+db_slug+'/users_groups');
 
