@@ -1,7 +1,9 @@
-const debug = require('debug')('app:mongodb.js');
-const mongoose = require('mongoose');
+const debug = require("debug")("app:mongodb.js");
+const mongoose = require("mongoose");
 debug("Trying to connect ... ");
-const conn = mongoose.connect(process.env.MONGODB_URL,{dbName: process.env.MONGODB_NAME,});
+const conn = mongoose.connect(process.env.MONGODB_URL, {
+  dbName: process.env.MONGODB_NAME,
+});
 
 /* conn.on('connected', function () {  
     debug('Mongoose default connection is established');

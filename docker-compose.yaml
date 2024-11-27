@@ -1,9 +1,9 @@
-version: '3.9'
+version: "3.9"
 networks:
   backend:
 services:
   php:
-    build: './.docker/php/'
+    build: "./.docker/php/"
     image: php:8.2-apache
     container_name: php
     ports:
@@ -15,8 +15,8 @@ services:
         target: /var/www/html/
     networks:
       - backend
-  mysql: 
-    build: './.docker/mysql/'
+  mysql:
+    build: "./.docker/mysql/"
     image: mysql:latest
     container_name: mysql
     restart: unless-stopped
@@ -38,7 +38,7 @@ services:
     container_name: phpmyadmin-gui
     image: phpmyadmin
     ports:
-      - '8080:80'
+      - "8080:80"
     restart: always
     environment:
       - PMA_HOST=mysql
@@ -50,9 +50,9 @@ services:
       - backend
   nodejs:
     container_name: nodejs
-    build: './.docker/nodejs'
+    build: "./.docker/nodejs"
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - type: bind
         source: ./node_port/
@@ -64,7 +64,7 @@ services:
       - backend
   mongodb:
     container_name: mongodb
-    build: './.docker/mongodb'
+    build: "./.docker/mongodb"
     restart: unless-stopped
     ports:
       - 27017:27017

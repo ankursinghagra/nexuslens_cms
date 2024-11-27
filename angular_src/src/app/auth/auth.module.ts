@@ -11,18 +11,18 @@ import { TuiCopy, TuiPassword } from '@taiga-ui/kit';
 import { ReactiveFormsModule } from '@angular/forms';
 
 const authRoutes: Routes = [
-  {path: "", component: AuthComponent , children: [
-    {path : "", component: LoginComponent},
-    {path : "forget-password", component: ForgetComponent}
-  ]},
+  {
+    path: '',
+    component: AuthComponent,
+    children: [
+      { path: '', component: LoginComponent },
+      { path: 'forget-password', component: ForgetComponent },
+    ],
+  },
 ];
 
 @NgModule({
-  declarations: [
-    ForgetComponent,
-    LoginComponent,
-    AuthComponent,
-  ],
+  declarations: [ForgetComponent, LoginComponent, AuthComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(authRoutes),
@@ -33,6 +33,6 @@ const authRoutes: Routes = [
     TuiPassword,
     TuiTextfieldComponent,
     TuiAppearance,
-  ]
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

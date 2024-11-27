@@ -8,15 +8,17 @@ UNDER DEVELOPMENT
 
 ## Technologies Used
 
-### Frontend 
+### Frontend
 
 Angular CLI v18.2.3
 
-### Backend 
+### Backend
+
 NodeJS v20.17.0
 PHP v8.2
 MongoDb v8.0.3
 
 ### Other Tools
+
 mongo-express
 Codeigniter v3
